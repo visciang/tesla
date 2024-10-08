@@ -98,9 +98,15 @@ if Code.ensure_loaded?(Finch) do
 
     defp request(req, name, req_opts, opts) do
       case opts[:response] do
-        :stream -> stream(req, name, req_opts)
-        nil -> Finch.request(req, name, req_opts)
-        other -> raise "Unknown response option: #{inspect(other)}"
+        :stream ->
+          stream(req, name, req_opts)
+
+        nil ->
+          IO.inspect("Finch.request(#{inspect(req)}, #{inspect(name)}, #{inspect(req_opts)})")
+          Finch.request(req, name, req_opts)
+
+        other ->
+          raise "Unknown response option: #{inspect(other)}"
       end
     end
 
